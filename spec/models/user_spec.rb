@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
 
   describe 'associations' do
     it { should have_one(:vehicle).required(false) }
+    it { should have_one(:house).required(false) }
   end
 
   describe 'validations' do
