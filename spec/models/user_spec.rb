@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+
+  describe 'associations' do
+    it { should have_one(:vehicle).required(false) }
+  end
+
   describe 'validations' do
     it { should validate_numericality_of(:age).is_greater_than_or_equal_to(0).only_integer }
     it { should validate_numericality_of(:dependents).is_greater_than_or_equal_to(0).only_integer }

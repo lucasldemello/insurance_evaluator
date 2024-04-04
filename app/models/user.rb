@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   enum :marital_status, single: 'single', married: 'married'
 
+  has_one :vehicle, required: false
+
   validates :age, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :dependents, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :income, numericality: { greater_than_or_equal_to: 0, only_integer: true }
