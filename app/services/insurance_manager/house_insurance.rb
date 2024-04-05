@@ -39,7 +39,7 @@ module InsuranceManager
       score -= 1 if user.income > 200_000
 
       # Se a casa do usuário é alugada, adicione 1 ponto de risco no seguro residencial e de invalidez
-      score += 1 if user.house.rented?
+      score += 1 if user.house.present? && user.house.rented?
 
       @score = score
     end
