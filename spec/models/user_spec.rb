@@ -27,4 +27,13 @@ RSpec.describe User, type: :model do
   describe 'enums' do
     it { should define_enum_for(:marital_status).with_values(single: 'single', married: 'married').backed_by_column_of_type(:string) }
   end
+
+  describe '#standard_risk_score' do
+    it 'returns a score between 1 and 3' do
+      user = create(:user, risk_questions: Array.new(3) { rand(2).floor })
+
+      score = user.standard_risk_score
+      expect(score).to be_between(0, 3).inclusive
+    end
+  end
 end
