@@ -5,14 +5,26 @@ module Api
     # Class responsible for processing the user evaluation of insurances.
     class UserController < ApplicationController
       def evaluate_insurances
-        result = UserManagement::UserCreator.call(user_params, vehicle_params, house_params)
+        create_user
 
-        return render json: { message: 'Insurance evaluation successful' }, status: :ok if result
+        return process_insurances if @user.valid?
 
-        render json: { error: 'Failed to evaluate insurances' }, status: :unprocessable_entity
+        render json: { error: @user.errors.full_messages }, status: :unprocessable_entity
       end
 
       private
+
+      def create_user
+        @user = UserManagement::UserCreator.call(user_params, vehicle_params, house_params)
+      end
+
+      def process_insurances
+        result = InsuranceManager::CalculateInsurancesScore.call(@user)
+
+        return render json: { message: 'Insurance evaluation successful', user: @user }, status: :ok if result
+
+        render json: { error: 'Failed to evaluate insurances' }, status: :unprocessable_entity
+      end
 
       def user_params
         params.permit(

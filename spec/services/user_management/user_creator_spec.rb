@@ -27,8 +27,9 @@ RSpec.describe UserManagement::UserCreator, type: :service do
         expect(House.last.ownership_status).to eq('owned')
       end
 
-      it 'returns true when user is successfully created' do
-        expect(service.call).to eq(true)
+      it 'returns a valid user if is successfully created' do
+        user = service.call
+        expect(user.valid?).to eq(true)
       end
     end
 
@@ -55,7 +56,8 @@ RSpec.describe UserManagement::UserCreator, type: :service do
       end
 
       it 'returns false when user creation fails' do
-        expect(invalid_service.call).to eq(false)
+        user = invalid_service.call
+        expect(user.valid?).to eq(false)
       end
     end
   end

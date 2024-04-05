@@ -19,6 +19,8 @@ module UserManagement
       user.build_house(house_params) unless house_params.blank?
 
       user.save
+
+      user
     end
   end
 end

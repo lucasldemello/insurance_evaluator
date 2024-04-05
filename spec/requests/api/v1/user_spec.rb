@@ -25,7 +25,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         parsed_response = JSON.parse(response.body)
-        expect(parsed_response['error']).to eq('Failed to evaluate insurances')
+        expect(parsed_response['error']).to eq(["Age is not a number", "Dependents is not a number", "Income is not a number", "Marital status can't be blank"])
       end
     end
   end
