@@ -9,14 +9,14 @@ module UserManagement
       super()
 
       @user_params = user_params
-      @vehicle_params = vehicle_params unless vehicle_params.nil?
-      @house_params = house_params unless house_params.blank?
+      @vehicle_params = vehicle_params
+      @house_params = house_params
     end
 
     def call
-      user = User.new(@user_params)
-      user.build_vehicle(@vehicle_params)
-      user.build_house(@house_params)
+      user = User.new(user_params)
+      user.build_vehicle(vehicle_params) unless vehicle_params.nil?
+      user.build_house(house_params) unless house_params.blank?
 
       user.save
     end
