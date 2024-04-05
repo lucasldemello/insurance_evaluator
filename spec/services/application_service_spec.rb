@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# spec/services/application_service_spec.rb
 require 'rails_helper'
 
 class SillyService < ApplicationService
