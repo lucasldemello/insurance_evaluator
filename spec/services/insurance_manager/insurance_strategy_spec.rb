@@ -47,7 +47,7 @@ RSpec.describe InsuranceManager::InsuranceStrategy do
         strategy = described_class.new(user)
         allow(strategy).to receive(:ineligible?).and_return(false)
         allow(strategy).to receive(:score).and_return(0)
-        expect(strategy.send(:score_type)).to eq(described_class::STANDARD)
+        expect(strategy.send(:score_type)).to eq(described_class::ECONOMIC)
       end
     end
 
@@ -56,7 +56,7 @@ RSpec.describe InsuranceManager::InsuranceStrategy do
         strategy = described_class.new(user)
         allow(strategy).to receive(:ineligible?).and_return(false)
         allow(strategy).to receive(:score).and_return(1)
-        expect(strategy.send(:score_type)).to eq(described_class::ECONOMIC)
+        expect(strategy.send(:score_type)).to eq(described_class::STANDARD)
       end
     end
 

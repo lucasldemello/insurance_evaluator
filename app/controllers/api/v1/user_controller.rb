@@ -21,7 +21,10 @@ module Api
       def process_insurances
         result = InsuranceManager::CalculateInsurancesScore.call(@user)
 
-        return render json: { message: 'Insurance evaluation successful', user: @user }, status: :ok if result
+        if result
+          response = InsuranceScores::InsuranceScoreSerializer.as_json(@user)
+          return render json: response, status: :ok if result
+        end
 
         render json: { error: 'Failed to evaluate insurances' }, status: :unprocessable_entity
       end
@@ -31,7 +34,8 @@ module Api
           :age,
           :dependents,
           :marital_status,
-          :income
+          :income,
+          risk_questions: []
         )
       end
 

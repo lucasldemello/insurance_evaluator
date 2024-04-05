@@ -5,8 +5,8 @@ module InsuranceManager
   # todo: move this for another place?
   class InsuranceStrategy < ApplicationService
     INELEGIBLE = 'inelegivel'
+    ECONOMIC = 'economico'
     STANDARD = 'padrao'
-    ECONOMIC = 'economic'
     ADVANCED = 'avancado'
 
     attr_reader :user, :score
@@ -58,9 +58,9 @@ module InsuranceManager
     def score_type
       return INELEGIBLE if ineligible?
 
-      return STANDARD if score.blank? || score <= 0
+      return ECONOMIC if score.blank? || score <= 0
 
-      return ECONOMIC if [1, 2].include?(score)
+      return STANDARD if [1, 2].include?(score)
 
       ADVANCED # 3 or higher
     end

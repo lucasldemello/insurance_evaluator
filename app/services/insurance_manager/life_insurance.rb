@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module InsuranceManager
-   # Implements Life Insurance bussiness logic
+  # Implements Life Insurance bussiness logic
   class LifeInsurance < InsuranceStrategy
     def call
       base_score

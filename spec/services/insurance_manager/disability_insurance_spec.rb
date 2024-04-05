@@ -37,7 +37,6 @@ RSpec.describe InsuranceManager::DisabilityInsurance, type: :model do
       end
     end
 
-
     context 'when user income is zero' do
       it 'returns true' do
         user.update(age: 50, income: 0)
