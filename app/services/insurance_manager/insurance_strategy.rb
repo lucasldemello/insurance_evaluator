@@ -19,7 +19,7 @@ module InsuranceManager
 
     # This method will store the type of insurance, if was ineligible and the score achieved (none if ineligible)
     # def call
-    #   InsuranceScore.create(type: INSURANCE_TYPE, ineligible: is_ineligible, score: score)
+    #   InsuranceScore.create(type: INSURANCE_TYPE, ineligible: ineligible?, score: score)
     # end
     def call
       raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
@@ -31,7 +31,7 @@ module InsuranceManager
       raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
     end
 
-    def is_ineligible
+    def ineligible?
       raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
     end
 
@@ -41,7 +41,7 @@ module InsuranceManager
     end
 
     def score_type
-      return INELEGIBLE if is_ineligible
+      return INELEGIBLE if ineligible?
 
       return STANDARD if score.blank? || score <= 0
 

@@ -2,8 +2,6 @@
 
 module InsuranceManager
   class LifeInsurance < InsuranceStrategy
-    INSURANCE_TYPE = 'life'
-
     def call
       calculate_score
 
@@ -12,7 +10,7 @@ module InsuranceManager
                                              insurance_type:,
                                              score:,
                                              score_description: score_type,
-                                             ineligible: is_ineligible
+                                             ineligible: ineligible?
                                            })
 
       insurance_score.save
@@ -21,15 +19,15 @@ module InsuranceManager
     private
 
     def insurance_type
-      INSURANCE_TYPE
+      'life'
     end
 
-    def is_ineligible
+    def ineligible?
       user.age > 60
     end
 
     def calculate_score
-      return if is_ineligible
+      return if ineligible?
 
       score = user.standard_risk_score
 

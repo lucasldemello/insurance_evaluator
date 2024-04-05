@@ -21,19 +21,19 @@ RSpec.describe InsuranceManager::LifeInsurance, type: :model do
     end
   end
 
-  describe '#is_ineligible' do
+  describe '#ineligible?' do
     context 'when user age is greater than 60' do
       it 'returns true' do
         user.update(age: 65)
         life_insurance = InsuranceManager::LifeInsurance.new(user)
-        expect(life_insurance.send(:is_ineligible)).to be true
+        expect(life_insurance.send(:ineligible?)).to be true
       end
     end
 
     context 'when user age is not greater than 60' do
       it 'returns false' do
         life_insurance = InsuranceManager::LifeInsurance.new(user)
-        expect(life_insurance.send(:is_ineligible)).to be false
+        expect(life_insurance.send(:ineligible?)).to be false
       end
     end
   end
