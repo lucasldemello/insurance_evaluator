@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_04_180117) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_05_023858) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_04_180117) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_houses_on_user_id"
+  end
+
+  create_table "insurance_scores", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "insurance_type", null: false
+    t.boolean "ineligible", default: false
+    t.integer "score", default: 0
+    t.string "score_description", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_insurance_scores_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -41,5 +52,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_04_180117) do
   end
 
   add_foreign_key "houses", "users"
+  add_foreign_key "insurance_scores", "users"
   add_foreign_key "vehicles", "users"
 end
