@@ -3,7 +3,11 @@
 module V1
   class UserController < ApplicationController
     def evaluate_insurances
-      render json: {}, status: :ok
+      result = UserManagement::UserCreator.call(user_params, vehicle_params, house_params)
+
+      return render json: { message: 'Insurance evaluation successful' }, status: :ok if result
+
+      render json: { error: 'Failed to evaluate insurances' }, status: :unprocessable_entity
     end
 
     private
@@ -13,10 +17,16 @@ module V1
         :age,
         :dependents,
         :marital_status,
-        :income,
-        house: [:ownership_status],
-        vehicle: [:year]
+        :income
       )
+    end
+
+    def vehicle_params
+      params[:vehicle]&.permit(:year)
+    end
+
+    def house_params
+      params[:house]&.permit(:ownership_status)
     end
   end
 end
