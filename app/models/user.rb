@@ -12,6 +12,10 @@ class User < ApplicationRecord
   validates :risk_questions, presence: true
   validate :validate_risk_questions_array
 
+  def standard_risk_score
+    risk_questions.sum
+  end
+
   private
 
   def validate_risk_questions_array
