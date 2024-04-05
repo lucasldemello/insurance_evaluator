@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module InsuranceManager
-  # Implements House insurance bussiness_logic
-  class HouseInsurance < InsuranceStrategy
+  # Implements Home insurance bussiness_logic
+  class HomeInsurance < InsuranceStrategy
     def call
       base_score
       adjust_score
@@ -21,7 +21,7 @@ module InsuranceManager
     private
 
     def insurance_type
-      'house'
+      'home'
     end
 
     def ineligible?

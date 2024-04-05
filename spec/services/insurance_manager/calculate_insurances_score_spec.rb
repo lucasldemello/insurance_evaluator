@@ -9,7 +9,7 @@ RSpec.describe InsuranceManager::CalculateInsurancesScore do
     context 'when all scores are calculated successfully' do
       it 'returns true' do
         allow(InsuranceManager::AutoInsurance).to receive(:call).and_return(true)
-        allow(InsuranceManager::HouseInsurance).to receive(:call).and_return(true)
+        allow(InsuranceManager::HomeInsurance).to receive(:call).and_return(true)
         allow(InsuranceManager::LifeInsurance).to receive(:call).and_return(true)
         allow(InsuranceManager::DisabilityInsurance).to receive(:call).and_return(true)
 
@@ -24,7 +24,7 @@ RSpec.describe InsuranceManager::CalculateInsurancesScore do
       it 'returns false' do
         allow(InsuranceManager::LifeInsurance).to receive(:call).and_return(true)
         allow(InsuranceManager::AutoInsurance).to receive(:call).and_return(true)
-        allow(InsuranceManager::HouseInsurance).to receive(:call).and_return(false) # Simulating failure
+        allow(InsuranceManager::HomeInsurance).to receive(:call).and_return(false) # Simulating failure
         allow(InsuranceManager::DisabilityInsurance).to receive(:call).and_return(true)
 
         service = described_class.new(user)

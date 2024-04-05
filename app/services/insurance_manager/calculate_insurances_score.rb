@@ -22,7 +22,7 @@ module InsuranceManager
     private
 
     def insurance_types
-      %w[Life Auto House Disability]
+      %w[Life Auto Home Disability]
     end
   end
 end
