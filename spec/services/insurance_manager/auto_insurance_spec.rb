@@ -42,38 +42,38 @@ RSpec.describe InsuranceManager::AutoInsurance, type: :model do
     end
   end
 
-  describe '#calculate_score' do
+  describe '#adjust_score' do
     it 'returns the standard risk score' do
       auto_insurance = InsuranceManager::AutoInsurance.new(user)
-      auto_insurance.send(:calculate_score)
+      auto_insurance.send(:call)
       expect(auto_insurance.send(:score)).to eq(0)
     end
 
     context 'when the rules apply' do
       it 'returns none if user is ineligible' do
         auto_insurance = InsuranceManager::AutoInsurance.new(ineligible_user)
-        auto_insurance.send(:calculate_score)
+        auto_insurance.send(:call)
         expect(auto_insurance.send(:score)).to eq(nil)
       end
 
       it 'returns -2 if user age is lesser than 30' do
         user.update(age: 25)
         auto_insurance = InsuranceManager::AutoInsurance.new(user)
-        auto_insurance.send(:calculate_score)
+        auto_insurance.send(:call)
         expect(auto_insurance.send(:score)).to eq(-2)
       end
 
       it 'return -1 if user age is between 30 and 40' do
         user.update(age: 34)
         auto_insurance = InsuranceManager::AutoInsurance.new(user)
-        auto_insurance.send(:calculate_score)
+        auto_insurance.send(:call)
         expect(auto_insurance.send(:score)).to eq(-1)
       end
 
       it 'return +1 if user vehicle has five years' do
         user.vehicle.update(year: Date.current.year)
         auto_insurance = InsuranceManager::AutoInsurance.new(user)
-        auto_insurance.send(:calculate_score)
+        auto_insurance.send(:call)
         expect(auto_insurance.send(:score)).to eq(1)
       end
     end

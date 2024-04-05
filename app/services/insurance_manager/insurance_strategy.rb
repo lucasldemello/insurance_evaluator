@@ -36,8 +36,23 @@ module InsuranceManager
     end
 
     # Will set the score
-    def calculate_score
+    def adjust_score
       raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
+    end
+
+    def base_score
+      return if ineligible?
+
+      score = user.standard_risk_score
+
+      # Se o usuário tem menos de 30 anos, diminua 2 pontos de risco de todas as linhas de seguro. Se ele tiver entre 30 e 40, diminua 1
+      score -= 2 if user.age < 30
+      score -= 1 if user.age.between?(30, 40)
+
+      # Se a renda for superior a 200k, diminua 1 ponto de risco de todas as linhas de seguro.
+      score -= 1 if user.income > 200_000
+
+      @score = score
     end
 
     def score_type

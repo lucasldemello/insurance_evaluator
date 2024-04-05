@@ -26,10 +26,10 @@ RSpec.describe InsuranceManager::InsuranceStrategy do
     end
   end
 
-  describe '#score' do
+  describe '#adjust_score' do
     it 'raises NotImplementedError' do
       strategy = described_class.new(user)
-      expect { strategy.send(:calculate_score) }.to raise_error(NotImplementedError)
+      expect { strategy.send(:adjust_score) }.to raise_error(NotImplementedError)
     end
   end
 

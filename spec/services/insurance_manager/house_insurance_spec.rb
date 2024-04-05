@@ -40,38 +40,38 @@ RSpec.describe InsuranceManager::HouseInsurance, type: :model do
     end
   end
 
-  describe '#calculate_score' do
+  describe '#call' do
     it 'returns the standard risk score' do
       house_insurance = InsuranceManager::HouseInsurance.new(user)
-      house_insurance.send(:calculate_score)
+      house_insurance.send(:call)
       expect(house_insurance.send(:score)).to eq(0)
     end
 
     context 'when the rules apply' do
       it 'returns none if user is ineligible' do
         house_insurance = InsuranceManager::HouseInsurance.new(ineligible_user)
-        house_insurance.send(:calculate_score)
+        house_insurance.send(:call)
         expect(house_insurance.send(:score)).to eq(nil)
       end
 
       it 'returns -2 if user age is lesser than 30' do
         user.update(age: 25)
         house_insurance = InsuranceManager::HouseInsurance.new(user)
-        house_insurance.send(:calculate_score)
+        house_insurance.send(:call)
         expect(house_insurance.send(:score)).to eq(-2)
       end
 
       it 'return -1 if user age is between 30 and 40' do
         user.update(age: 34)
         house_insurance = InsuranceManager::HouseInsurance.new(user)
-        house_insurance.send(:calculate_score)
+        house_insurance.send(:call)
         expect(house_insurance.send(:score)).to eq(-1)
       end
 
       it 'return +1 if user house is rented' do
         user.house.update(ownership_status: 'rented')
         house_insurance = InsuranceManager::HouseInsurance.new(user)
-        house_insurance.send(:calculate_score)
+        house_insurance.send(:call)
         expect(house_insurance.send(:score)).to eq(1)
       end
     end

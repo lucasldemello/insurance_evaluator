@@ -38,10 +38,10 @@ RSpec.describe InsuranceManager::LifeInsurance, type: :model do
     end
   end
 
-  describe '#calculate_score' do
+  describe '#adjust_score' do
     it 'returns the standard risk score' do
       life_insurance = InsuranceManager::LifeInsurance.new(user)
-      life_insurance.send(:calculate_score)
+      life_insurance.send(:call)
       expect(life_insurance.send(:score)).to eq(0)
     end
 
@@ -49,28 +49,28 @@ RSpec.describe InsuranceManager::LifeInsurance, type: :model do
       it 'returns none if user is ineligible' do
         user.update(age: 65)
         life_insurance = InsuranceManager::LifeInsurance.new(user)
-        life_insurance.send(:calculate_score)
+        life_insurance.send(:call)
         expect(life_insurance.send(:score)).to eq(nil)
       end
 
       it 'returns -2 if user age is lesser than 30' do
         user.update(age: 25)
         life_insurance = InsuranceManager::LifeInsurance.new(user)
-        life_insurance.send(:calculate_score)
+        life_insurance.send(:call)
         expect(life_insurance.send(:score)).to eq(-2)
       end
 
       it 'return -1 if user age is between 30 and 40' do
         user.update(age: 34)
         life_insurance = InsuranceManager::LifeInsurance.new(user)
-        life_insurance.send(:calculate_score)
+        life_insurance.send(:call)
         expect(life_insurance.send(:score)).to eq(-1)
       end
 
       it 'return +2 if user has dependents and is married' do
         user.update(age: 50, marital_status: 'married', dependents: 1)
         life_insurance = InsuranceManager::LifeInsurance.new(user)
-        life_insurance.send(:calculate_score)
+        life_insurance.send(:call)
         expect(life_insurance.send(:score)).to eq(2)
       end
     end

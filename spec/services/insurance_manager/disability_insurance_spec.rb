@@ -55,10 +55,10 @@ RSpec.describe InsuranceManager::DisabilityInsurance, type: :model do
     end
   end
 
-  describe '#calculate_score' do
+  describe '#adjust_score' do
     it 'returns the standard risk score' do
       disability_insurance = InsuranceManager::DisabilityInsurance.new(user)
-      disability_insurance.send(:calculate_score)
+      disability_insurance.send(:call)
       expect(disability_insurance.send(:score)).to eq(0)
     end
 
@@ -66,28 +66,28 @@ RSpec.describe InsuranceManager::DisabilityInsurance, type: :model do
       it 'returns none if user is ineligible' do
         user.update(age: 65)
         disability_insurance = InsuranceManager::DisabilityInsurance.new(user)
-        disability_insurance.send(:calculate_score)
+        disability_insurance.send(:call)
         expect(disability_insurance.send(:score)).to eq(nil)
       end
 
       it 'returns -2 if user age is lesser than 30' do
         user.update(age: 25)
         disability_insurance = InsuranceManager::DisabilityInsurance.new(user)
-        disability_insurance.send(:calculate_score)
+        disability_insurance.send(:call)
         expect(disability_insurance.send(:score)).to eq(-2)
       end
 
       it 'return -1 if user age is between 30 and 40' do
         user.update(age: 34)
         disability_insurance = InsuranceManager::DisabilityInsurance.new(user)
-        disability_insurance.send(:calculate_score)
+        disability_insurance.send(:call)
         expect(disability_insurance.send(:score)).to eq(-1)
       end
 
       it 'return +2 if user has dependents and a owned house' do
         user.update(age: 50, dependents: 1, house: create(:house, ownership_status: 'rented'))
         disability_insurance = InsuranceManager::DisabilityInsurance.new(user)
-        disability_insurance.send(:calculate_score)
+        disability_insurance.send(:call)
         expect(disability_insurance.send(:score)).to eq(2)
       end
 
@@ -95,7 +95,7 @@ RSpec.describe InsuranceManager::DisabilityInsurance, type: :model do
         user.update(marital_status: :married)
 
         disability_insurance = InsuranceManager::DisabilityInsurance.new(user)
-        disability_insurance.send(:calculate_score)
+        disability_insurance.send(:call)
         expect(disability_insurance.send(:score)).to eq(-1)
       end
     end
