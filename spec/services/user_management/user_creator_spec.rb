@@ -32,6 +32,18 @@ RSpec.describe UserManagement::UserCreator, type: :service do
       end
     end
 
+    context 'when only user params are provided' do
+      let(:service) { described_class.new(user_params, {}, {}) }
+
+      it 'creates a new user even if vehicle and house params are not provided' do
+        expect {
+          service.call
+        }.to change(User, :count).by(1)
+         .and change(Vehicle, :count).by(0)
+         .and change(House, :count).by(0)
+      end
+    end
+
     context 'when invalid params are provided' do
       let(:invalid_user_params) do
         { age: nil, dependents: 2, income: 0, marital_status: 'married', risk_questions: [0, 1, 0] }

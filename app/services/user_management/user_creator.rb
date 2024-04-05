@@ -9,8 +9,8 @@ module UserManagement
       super()
 
       @user_params = user_params
-      @vehicle_params = vehicle_params
-      @house_params = house_params
+      @vehicle_params = vehicle_params unless vehicle_params.nil?
+      @house_params = house_params unless house_params.blank?
     end
 
     def call
