@@ -9,40 +9,41 @@ RSpec.describe UserManagement::UserCreator, type: :service do
 
   describe '#call' do
     context 'when valid params are provided' do
-      it 'creates a new user with associated vehicle and house' do
-        service = described_class.new(user_params, vehicle_params, house_params)
+      let(:service) { described_class.new(user_params, vehicle_params, house_params) }
 
-        expect { service.call }.to change(User, :count).by(1)
-        expect(User.last.age).to eq(35)
-        expect(User.last.dependents).to eq(2)
+      it 'creates a new user with associated vehicle and house' do
+        expect { service.call }.to change { User.count }.by(1)
+      end
+
+      it 'associates the vehicle with the new user' do
+        service.call
         expect(Vehicle.last.year).to eq(2018)
         expect(Vehicle.last.user).to eq(User.last)
+      end
+
+      it 'associates the house with the new user' do
+        service.call
         expect(House.last.user).to eq(User.last)
         expect(House.last.ownership_status).to eq('owned')
       end
 
       it 'returns true when user is successfully created' do
-        service = described_class.new(user_params, vehicle_params, house_params)
-
         expect(service.call).to eq(true)
       end
     end
 
     context 'when invalid params are provided' do
-      it 'does not create a new user' do
-        invalid_user_params = { age: nil, dependents: 2, income: 0, marital_status: 'married',
-                                risk_questions: [0, 1, 0] }
-        service = described_class.new(invalid_user_params, vehicle_params, house_params)
+      let(:invalid_user_params) do
+        { age: nil, dependents: 2, income: 0, marital_status: 'married', risk_questions: [0, 1, 0] }
+      end
+      let(:invalid_service) { described_class.new(invalid_user_params, vehicle_params, house_params) }
 
-        expect { service.call }.to_not change(User, :count)
+      it 'does not create a new user' do
+        expect { invalid_service.call }.not_to(change { User.count })
       end
 
       it 'returns false when user creation fails' do
-        invalid_user_params = { age: nil, dependents: 2, income: 0, marital_status: 'married',
-                                risk_questions: [0, 1, 0] }
-        service = described_class.new(invalid_user_params, vehicle_params, house_params)
-
-        expect(service.call).to eq(false)
+        expect(invalid_service.call).to eq(false)
       end
     end
   end

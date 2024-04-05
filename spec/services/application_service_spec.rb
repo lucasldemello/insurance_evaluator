@@ -3,18 +3,19 @@
 # spec/services/application_service_spec.rb
 require 'rails_helper'
 
-RSpec.describe ApplicationService do
-  class SillyService < ApplicationService
-    def initialize(arg1, arg2)
-      @arg1 = arg1
-      @arg2 = arg2
-    end
-
-    def call
-      [@arg1, @arg2].join(' ')
-    end
+class SillyService < ApplicationService
+  def initialize(arg1, arg2)
+    super()
+    @arg1 = arg1
+    @arg2 = arg2
   end
 
+  def call
+    [@arg1, @arg2].join(' ')
+  end
+end
+
+RSpec.describe ApplicationService do
   describe '.call' do
     it 'creates a new instance of the service and calls the call method' do
       expect_any_instance_of(SillyService).to receive(:call).and_call_original
