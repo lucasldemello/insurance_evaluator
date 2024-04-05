@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module V1
+  # Class responsible for processing the user evaluation of insurances.
   class UserController < ApplicationController
     def evaluate_insurances
       result = UserManagement::UserCreator.call(user_params, vehicle_params, house_params)

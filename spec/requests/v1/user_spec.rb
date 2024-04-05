@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe "V1::Users", type: :request do
-  describe "POST /evaluate_insurances" do
-    context "when all required parameters are provided" do
-      it "returns http success" do
-        post "/v1/user/evaluate_insurances", params: {
+RSpec.describe 'V1::Users', type: :request do
+  describe 'POST /evaluate_insurances' do
+    context 'when all required parameters are provided' do
+      it 'returns http success' do
+        post '/v1/user/evaluate_insurances', params: {
           age: 35,
           dependents: 2,
           marital_status: 'married',
@@ -19,9 +19,9 @@ RSpec.describe "V1::Users", type: :request do
       end
     end
 
-    context "when some required parameters are missing" do
-      it "returns http error" do
-        post "/v1/user/evaluate_insurances", params: {}
+    context 'when some required parameters are missing' do
+      it 'returns http error' do
+        post '/v1/user/evaluate_insurances', params: {}
 
         expect(response).to have_http_status(:unprocessable_entity)
         parsed_response = JSON.parse(response.body)
