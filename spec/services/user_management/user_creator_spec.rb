@@ -36,11 +36,11 @@ RSpec.describe UserManagement::UserCreator, type: :service do
       let(:service) { described_class.new(user_params, {}, {}) }
 
       it 'creates a new user even if vehicle and house params are not provided' do
-        expect {
+        expect do
           service.call
-        }.to change(User, :count).by(1)
-         .and change(Vehicle, :count).by(0)
-         .and change(House, :count).by(0)
+        end.to change(User, :count).by(1)
+                                   .and change(Vehicle, :count).by(0)
+                                                               .and change(House, :count).by(0)
       end
     end
 

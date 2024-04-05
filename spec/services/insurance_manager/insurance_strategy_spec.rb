@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe InsuranceManager::InsuranceStrategy do
@@ -27,7 +29,7 @@ RSpec.describe InsuranceManager::InsuranceStrategy do
   describe '#score' do
     it 'raises NotImplementedError' do
       strategy = described_class.new(user)
-      expect { strategy.send(:score) }.to raise_error(NotImplementedError)
+      expect { strategy.send(:calculate_score) }.to raise_error(NotImplementedError)
     end
   end
 

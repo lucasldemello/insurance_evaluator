@@ -4,11 +4,10 @@ module InsuranceManager
   # Basic class to define the template for insurances
   # todo: move this for another place?
   class InsuranceStrategy < ApplicationService
-
-    INELEGIBLE = 'inelegivel'.freeze
-    STANDARD = 'padrao'.freeze
-    ECONOMIC = 'economic'.freeze
-    ADVANCED = 'avancado'.freeze
+    INELEGIBLE = 'inelegivel'
+    STANDARD = 'padrao'
+    ECONOMIC = 'economic'
+    ADVANCED = 'avancado'
 
     attr_reader :user, :score
 
@@ -32,7 +31,6 @@ module InsuranceManager
       raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
     end
 
-
     def is_ineligible
       raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
     end
@@ -45,12 +43,11 @@ module InsuranceManager
     def score_type
       return INELEGIBLE if is_ineligible
 
-      return STANDARD if score <= 0
+      return STANDARD if score.blank? || score <= 0
 
-      return ECONOMIC if [1,2].include?(score)
+      return ECONOMIC if [1, 2].include?(score)
 
       ADVANCED # 3 or higher
     end
-
   end
 end
